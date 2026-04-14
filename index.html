@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>MPC Web</title>
+
+<style>
+  body {
+    background: #0d0d0d;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
+
+  h1 {
+    margin-top: 20px;
+    letter-spacing: 2px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 120px);
+    gap: 20px;
+    justify-content: center;
+    margin-top: 40px;
+  }
+
+  .pad {
+    width: 120px;
+    height: 120px;
+    background: #1f1f1f;
+    border: 2px solid #444;
+    border-radius: 12px;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+    transition: 0.1s;
+  }
+
+  .pad:active {
+    background: #00ff99;
+    color: black;
+    transform: scale(0.95);
+  }
+</style>
+
+</head>
+
+<body>
+
+<h1>MPC EXPERIMENTAL</h1>
+
+<div class="grid">
+  <button class="pad" onclick="pad('kick')">KICK</button>
+  <button class="pad" onclick="pad('snare')">SNARE</button>
+  <button class="pad" onclick="pad('hihat')">HIHAT</button>
+  <button class="pad" onclick="pad('fx')">FX</button>
+</div>
+
+<!-- sonidos (pueden no existir aún) -->
+<audio id="kick" src="sounds/kick.mp3"></audio>
+<audio id="snare" src="sounds/snare.mp3"></audio>
+<audio id="hihat" src="sounds/hihat.mp3"></audio>
+<audio id="fx" src="sounds/fx.mp3"></audio>
+
+<script>
+function pad(id) {
+  let sonido = document.getElementById(id);
+
+  // intenta reproducir (aunque no exista aún)
+  if (sonido) {
+    sonido.currentTime = 0;
+    sonido.play().catch(() => {});
+  }
+
+  console.log("Pad:", id);
+}
+</script>
+
+</body>
+</html>
