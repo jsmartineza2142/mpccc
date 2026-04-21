@@ -1,81 +1,39 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>MPC Web</title>
-
-<style>
-  body {
-    background: #0d0d0d;
-    color: white;
-    font-family: Arial, sans-serif;
-    text-align: center;
-  }
-
-  h1 {
-    margin-top: 20px;
-    letter-spacing: 2px;
-  }
-
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(2, 120px);
-    gap: 20px;
-    justify-content: center;
-    margin-top: 40px;
-  }
-
-  .pad {
-    width: 120px;
-    height: 120px;
-    background: #1f1f1f;
-    border: 2px solid #444;
-    border-radius: 12px;
-    font-size: 16px;
-    color: white;
-    cursor: pointer;
-    transition: 0.1s;
-  }
-
-  .pad:active {
-    background: #00ff99;
-    color: black;
-    transform: scale(0.95);
-  }
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual MPC</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<h1>MPC EXPERIMENTAL</h1>
+    <h1>🎛️ Virtual MPC</h1>
 
-<div class="grid">
-  <button class="pad" onclick="pad('kick')">KICK</button>
-  <button class="pad" onclick="pad('snare')">SNARE</button>
-  <button class="pad" onclick="pad('hihat')">HIHAT</button>
-  <button class="pad" onclick="pad('fx')">FX</button>
-</div>
+    <div class="grid">
+        <!-- 16 pads -->
+        <!-- Puedes repetir la imagen por ahora -->
+        <div class="pad" data-pad="1"><img src="img/pad1.jpg"></div>
+        <div class="pad" data-pad="2"><img src="img/pad2.jpg"></div>
+        <div class="pad" data-pad="3"><img src="img/pad3.jpg"></div>
+        <div class="pad" data-pad="4"><img src="img/pad4.jpg"></div>
 
-<!-- sonidos (pueden no existir aún) -->
-<audio id="kick" src="sounds/kick.mp3"></audio>
-<audio id="snare" src="sounds/snare.mp3"></audio>
-<audio id="hihat" src="sounds/hihat.mp3"></audio>
-<audio id="fx" src="sounds/fx.mp3"></audio>
+        <div class="pad" data-pad="5"><img src="img/pad5.jpg"></div>
+        <div class="pad" data-pad="6"><img src="img/pad6.jpg"></div>
+        <div class="pad" data-pad="7"><img src="img/pad7.jpg"></div>
+        <div class="pad" data-pad="8"><img src="img/pad8.jpg"></div>
 
-<script>
-function pad(id) {
-  let sonido = document.getElementById(id);
+        <div class="pad" data-pad="9"><img src="img/pad9.jpg"></div>
+        <div class="pad" data-pad="10"><img src="img/pad10.jpg"></div>
+        <div class="pad" data-pad="11"><img src="img/pad11.jpg"></div>
+        <div class="pad" data-pad="12"><img src="img/pad12.jpg"></div>
 
-  // intenta reproducir (aunque no exista aún)
-  if (sonido) {
-    sonido.currentTime = 0;
-    sonido.play().catch(() => {});
-  }
+        <div class="pad" data-pad="13"><img src="img/pad13.jpg"></div>
+        <div class="pad" data-pad="14"><img src="img/pad14.jpg"></div>
+        <div class="pad" data-pad="15"><img src="img/pad15.jpg"></div>
+        <div class="pad" data-pad="16"><img src="img/pad16.jpg"></div>
+    </div>
 
-  console.log("Pad:", id);
-}
-</script>
-
+    <script src="script.js"></script>
 </body>
 </html>
