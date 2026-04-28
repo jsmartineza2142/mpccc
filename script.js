@@ -1,52 +1,42 @@
 const pads = document.querySelectorAll(".pad");
 
-// 🎧 contexto compatible iPhone
-const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+// 🔊 crear múltiples instancias por sonido (clave para repetir rápido)
+const soundPools = [];
 
-// buffers
-const buffers = [];
+// 🔥 crear 5 copias de cada sonido (puedes subir a 8 si quieres)
+for (let i = 1; i <= 16; i++) {
+  const pool = [];
 
-// 🔥 cargar sonidos al inicio (sin esperar interacción)
-function loadSounds() {
-  for (let i = 1; i <= 16; i++) {
-    fetch(`sounds/sound${i}.mp3`)
-      .then(res => res.arrayBuffer())
-      .then(data => audioContext.decodeAudioData(data))
-      .then(buffer => {
-        buffers[i - 1] = buffer;
-      });
+  for (let j = 0; j < 5; j++) {
+    const audio = new Audio(`sounds/sound${i}.mp3`);
+    audio.preload = "auto";
+    pool.push(audio);
   }
+
+  soundPools.push(pool);
 }
 
-loadSounds();
+// 🔊 reproducir sin cortar sonidos
+function playSound(pool) {
+  for (let audio of pool) {
+    if (audio.paused) {
+      audio.currentTime = 0;
+      audio.play();
+      return;
+    }
+  }
 
-// 🔊 reproducir
-function playSound(buffer) {
-  const source = audioContext.createBufferSource();
-  source.buffer = buffer;
-
-  const gainNode = audioContext.createGain();
-  gainNode.gain.value = 1;
-
-  source.connect(gainNode);
-  gainNode.connect(audioContext.destination);
-
-  source.start(0);
+  // si todos están ocupados, reutiliza el primero
+  pool[0].currentTime = 0;
+  pool[0].play();
 }
 
-// 🎛️ evento
+// 🎛️ eventos
 pads.forEach((pad, index) => {
 
   pad.addEventListener("click", () => {
 
-    // 🔥 activar audio en iPhone
-    if (audioContext.state === "suspended") {
-      audioContext.resume();
-    }
-
-    if (buffers[index]) {
-      playSound(buffers[index]);
-    }
+    playSound(soundPools[index]);
 
     // animación
     pad.style.transform = "scale(0.85)";
