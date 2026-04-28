@@ -1,11 +1,12 @@
 const pads = document.querySelectorAll(".pad");
 
-// contexto de audio (clave para iPhone)
+// Crear contexto de audio (compatible con iPhone)
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
+// Buffers de audio
 const buffers = [];
 
-// cargar sonidos como buffers (más rápido que Audio)
+// 🔥 Cargar sonidos
 async function loadSounds() {
   for (let i = 1; i <= 16; i++) {
     const response = await fetch(`sounds/sound${i}.mp3`);
@@ -17,32 +18,42 @@ async function loadSounds() {
 
 loadSounds();
 
-// función para reproducir
+// 🔊 Reproducir sonido (sin lag)
 function playSound(buffer) {
   const source = audioContext.createBufferSource();
   source.buffer = buffer;
-  source.connect(audioContext.destination);
+
+  // Nodo de ganancia (mejor control y rendimiento)
+  const gainNode = audioContext.createGain();
+  gainNode.gain.value = 1;
+
+  source.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+
   source.start(0);
 }
 
-// eventos
+// 🎛️ Eventos de pads
 pads.forEach((pad, index) => {
 
   pad.addEventListener("click", () => {
 
-    // importante en iPhone (activa audio)
+    // 🔥 NECESARIO en iPhone
     if (audioContext.state === "suspended") {
       audioContext.resume();
     }
 
-    playSound(buffers[index]);
+    // reproducir sonido
+    if (buffers[index]) {
+      playSound(buffers[index]);
+    }
 
     // animación
     pad.style.transform = "scale(0.85)";
     
     setTimeout(() => {
       pad.style.transform = "scale(1)";
-    }, 100);
+    }, 80);
   });
 
 });
