@@ -1,31 +1,34 @@
 const pads = document.querySelectorAll(".pad");
 
-// 🎧 Contexto de audio (iPhone compatible)
+// 🎧 contexto compatible con iPhone
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
-// 🔥 Buffers (audio ya decodificado)
 const buffers = [];
+let loaded = false;
 
-// ⚡ Precarga optimizada
+// 🔥 cargar sonidos
 async function loadSounds() {
-  const promises = [];
-
   for (let i = 1; i <= 16; i++) {
-    const p = fetch(`sounds/sound${i}.mp3`)
-      .then(res => res.arrayBuffer())
-      .then(data => audioContext.decodeAudioData(data))
-      .then(buffer => buffers[i - 1] = buffer);
-
-    promises.push(p);
+    const response = await fetch(`sounds/sound${i}.mp3`);
+    const arrayBuffer = await response.arrayBuffer();
+    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+    buffers.push(audioBuffer);
   }
-
-  await Promise.all(promises);
-  console.log("✅ sonidos cargados");
+  loaded = true;
 }
 
-loadSounds();
+// 👇 se carga después del primer toque real
+async function initAudio() {
+  if (audioContext.state === "suspended") {
+    await audioContext.resume();
+  }
 
-// 🔊 Disparo ultra rápido
+  if (!loaded) {
+    await loadSounds();
+  }
+}
+
+// 🔊 reproducir
 function playSound(buffer) {
   const source = audioContext.createBufferSource();
   source.buffer = buffer;
@@ -36,19 +39,16 @@ function playSound(buffer) {
   source.connect(gainNode);
   gainNode.connect(audioContext.destination);
 
-  // 🔥 clave: arranque inmediato con currentTime
-  source.start(audioContext.currentTime);
+  source.start(0);
 }
 
-// 🎛️ Eventos
+// 🎛️ eventos
 pads.forEach((pad, index) => {
 
-  const trigger = () => {
+  pad.addEventListener("click", async () => {
 
-    // activar audio en iPhone
-    if (audioContext.state === "suspended") {
-      audioContext.resume();
-    }
+    // 🔥 activar audio en iPhone
+    await initAudio();
 
     if (buffers[index]) {
       playSound(buffers[index]);
@@ -58,10 +58,7 @@ pads.forEach((pad, index) => {
     pad.style.transform = "scale(0.85)";
     setTimeout(() => {
       pad.style.transform = "scale(1)";
-    }, 60);
-  };
+    }, 80);
+  });
 
-  // 👇 mejor que solo click (reduce lag en móvil)
-  pad.addEventListener("touchstart", trigger);
-  pad.addEventListener("mousedown", trigger);
 });
