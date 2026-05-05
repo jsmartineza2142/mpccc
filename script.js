@@ -1,6 +1,6 @@
 const pads = document.querySelectorAll(".pad");
 
-// 🔊 sonidos simples (compatibles iPhone)
+// 🔊 sonidos (compatibles con iPhone)
 const sounds = [];
 
 for (let i = 1; i <= 16; i++) {
@@ -9,32 +9,11 @@ for (let i = 1; i <= 16; i++) {
   sounds.push(audio);
 }
 
-pads.forEach((pad, index) => {
-
-  pad.addEventListener("click", () => {
-
-    const sound = sounds[index];
-
-    // 🔥 truco iPhone: clonar el audio
-    const clone = sound.cloneNode();
-
-    clone.currentTime = 0;
-    clone.play();
-
-    // animación
-    pad.style.transform = "scale(0.85)";
-    setTimeout(() => {
-      pad.style.transform = "scale(1)";
-    }, 80);
-  });
-
-});
-
 // 🎚️ CANVAS
 const canvas = document.getElementById("waveform");
 const ctx = canvas.getContext("2d");
 
-// ajustar resolución real
+// resolución real (importante)
 canvas.width = 800;
 canvas.height = 200;
 
@@ -56,42 +35,62 @@ function clearCanvas() {
 // iniciar limpio
 clearCanvas();
 
-// 🎚️ función que dibuja "onda falsa" basada en interacción
-function drawWave() {
+// 🔥 dibujar golpe (onda)
+function drawHit() {
   if (!recording) return;
 
-  requestAnimationFrame(drawWave);
+  const centerY = canvas.height / 2;
 
-  // simulamos onda (basada en interacción)
-  const amplitude = Math.random() * 80;
+  // intensidad aleatoria (simula energía del sonido)
+  const amplitude = Math.random() * 80 + 20;
 
   ctx.strokeStyle = "#00ffcc";
   ctx.lineWidth = 2;
 
   ctx.beginPath();
-  ctx.moveTo(x, canvas.height / 2);
-  ctx.lineTo(x, canvas.height / 2 + amplitude);
+  ctx.moveTo(x, centerY - amplitude);
+  ctx.lineTo(x, centerY + amplitude);
   ctx.stroke();
 
-  x += 2;
+  x += 4;
 
-  // si llega al final, sigue dibujando encima
   if (x > canvas.width) x = 0;
 }
 
-// 🔴 GRABAR
+// 🎛️ eventos de pads
+pads.forEach((pad, index) => {
+
+  pad.addEventListener("click", () => {
+
+    const sound = sounds[index];
+
+    // 🔥 clave iPhone: clonar sonido
+    const clone = sound.cloneNode();
+    clone.currentTime = 0;
+    clone.play();
+
+    drawHit(); // 🎚️ dibuja onda
+
+    // animación
+    pad.style.transform = "scale(0.85)";
+    setTimeout(() => {
+      pad.style.transform = "scale(1)";
+    }, 80);
+  });
+
+});
+
+// 🔴 GRABAR ONDA
 recordBtn.onclick = () => {
   recording = true;
   x = 0;
   clearCanvas();
-  drawWave();
 };
 
-// ⏹️ PARAR
+// ⏹️ PARAR Y DESCARGAR
 stopBtn.onclick = () => {
   recording = false;
 
-  // convertir canvas a imagen
   const dataURL = canvas.toDataURL("image/png");
 
   downloadLink.href = dataURL;
