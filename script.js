@@ -1,6 +1,6 @@
 const pads = document.querySelectorAll(".pad");
 
-// 🔊 sonidos (compatibles con iPhone)
+// 🔊 sonidos
 const sounds = [];
 
 for (let i = 1; i <= 16; i++) {
@@ -9,11 +9,11 @@ for (let i = 1; i <= 16; i++) {
   sounds.push(audio);
 }
 
-// 🎚️ CANVAS
+// 🎚️ canvas
 const canvas = document.getElementById("waveform");
 const ctx = canvas.getContext("2d");
 
-// ajustar tamaño real al visible
+// ajustar tamaño real
 function resizeCanvas() {
   canvas.width = canvas.offsetWidth;
   canvas.height = 150;
@@ -21,7 +21,7 @@ function resizeCanvas() {
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 
-// 🎛️ BOTONES
+// botones
 const recordBtn = document.getElementById("recordBtn");
 const stopBtn = document.getElementById("stopBtn");
 const downloadLink = document.getElementById("downloadLink");
@@ -31,19 +31,18 @@ const gallery = document.getElementById("gallery");
 let recording = false;
 let x = 0;
 
-// limpiar canvas
+// limpiar
 function clearCanvas() {
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 clearCanvas();
 
-// 🔥 dibujar golpe (onda)
+// dibujar onda
 function drawHit() {
   if (!recording) return;
 
   const centerY = canvas.height / 2;
-
   const amplitude = Math.random() * 50 + 30;
 
   ctx.strokeStyle = "#00ffcc";
@@ -59,16 +58,15 @@ function drawHit() {
   if (x > canvas.width) x = 0;
 }
 
-// 🎛️ eventos de pads
+// pads
 pads.forEach((pad, index) => {
-
   pad.addEventListener("click", () => {
 
     const sound = sounds[index];
 
     const clone = sound.cloneNode();
     clone.currentTime = 0;
-    clone.play();
+    clone.play().catch(() => {}); // 🔥 fix iPhone
 
     drawHit();
 
@@ -77,28 +75,26 @@ pads.forEach((pad, index) => {
       pad.style.transform = "scale(1)";
     }, 80);
   });
-
 });
 
-// 🔴 GRABAR ONDA
+// grabar
 recordBtn.onclick = () => {
   recording = true;
   x = 0;
   clearCanvas();
 };
 
-// ⏹️ PARAR Y GUARDAR
+// parar
 stopBtn.onclick = () => {
   recording = false;
 
   const dataURL = canvas.toDataURL("image/png");
 
-  // botón descarga principal
   downloadLink.href = dataURL;
   downloadLink.download = "onda.png";
   downloadLink.style.display = "block";
 
-  // 🔥 agregar a galería
+  // galería
   const container = document.createElement("div");
   container.className = "wave-item";
 
@@ -112,6 +108,5 @@ stopBtn.onclick = () => {
 
   container.appendChild(img);
   container.appendChild(link);
-
   gallery.appendChild(container);
 };
