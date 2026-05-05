@@ -10,7 +10,6 @@ h1 {
     margin: 20px 0;
 }
 
-/* CONTROLES */
 .controls {
     margin: 15px;
 }
@@ -31,7 +30,6 @@ button:hover {
     color: black;
 }
 
-/* CANVAS */
 canvas {
     width: 100%;
     max-width: 500px;
@@ -42,7 +40,6 @@ canvas {
     border-radius: 10px;
 }
 
-/* GALERÍA */
 #gallery {
     margin-top: 20px;
     display: flex;
@@ -69,7 +66,6 @@ canvas {
     text-decoration: none;
 }
 
-/* GRID */
 .grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
