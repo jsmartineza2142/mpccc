@@ -10,37 +10,43 @@
 
     <h1>🎛️ Virtual MPC</h1>
 
-    <div class="grid">
-        <!-- 16 pads -->
-        <!-- Puedes repetir la imagen por ahora -->
-        <div class="pad" data-pad="1"><img src="img/pad1.jpg"></div>
-        <div class="pad" data-pad="2"><img src="img/pad2.jpg"></div>
-        <div class="pad" data-pad="3"><img src="img/pad3.jpg"></div>
-        <div class="pad" data-pad="4"><img src="img/pad4.jpg"></div>
-
-        <div class="pad" data-pad="5"><img src="img/pad5.jpg"></div>
-        <div class="pad" data-pad="6"><img src="img/pad6.jpg"></div>
-        <div class="pad" data-pad="7"><img src="img/pad7.jpg"></div>
-        <div class="pad" data-pad="8"><img src="img/pad8.jpg"></div>
-
-        <div class="pad" data-pad="9"><img src="img/pad9.jpg"></div>
-        <div class="pad" data-pad="10"><img src="img/pad10.jpg"></div>
-        <div class="pad" data-pad="11"><img src="img/pad11.jpg"></div>
-        <div class="pad" data-pad="12"><img src="img/pad12.jpg"></div>
-
-        <div class="pad" data-pad="13"><img src="img/pad13.jpg"></div>
-        <div class="pad" data-pad="14"><img src="img/pad14.jpg"></div>
-        <div class="pad" data-pad="15"><img src="img/pad15.jpg"></div>
-        <div class="pad" data-pad="16"><img src="img/pad16.jpg"></div>
+    <!-- CONTROLES -->
+    <div class="controls">
+        <button id="recordBtn">⏺️ Grabar onda</button>
+        <button id="stopBtn">⏹️ Parar</button>
+        <a id="downloadLink" style="display:none;">💾 Descargar</a>
     </div>
 
+    <!-- CANVAS -->
+    <canvas id="waveform"></canvas>
+
+    <!-- GRID MPC -->
+    <div class="grid">
+        <div class="pad"><img src="img/pad1.jpg"></div>
+        <div class="pad"><img src="img/pad2.jpg"></div>
+        <div class="pad"><img src="img/pad3.jpg"></div>
+        <div class="pad"><img src="img/pad4.jpg"></div>
+
+        <div class="pad"><img src="img/pad5.jpg"></div>
+        <div class="pad"><img src="img/pad6.jpg"></div>
+        <div class="pad"><img src="img/pad7.jpg"></div>
+        <div class="pad"><img src="img/pad8.jpg"></div>
+
+        <div class="pad"><img src="img/pad9.jpg"></div>
+        <div class="pad"><img src="img/pad10.jpg"></div>
+        <div class="pad"><img src="img/pad11.jpg"></div>
+        <div class="pad"><img src="img/pad12.jpg"></div>
+
+        <div class="pad"><img src="img/pad13.jpg"></div>
+        <div class="pad"><img src="img/pad14.jpg"></div>
+        <div class="pad"><img src="img/pad15.jpg"></div>
+        <div class="pad"><img src="img/pad16.jpg"></div>
+    </div>
+
+    <!-- GALERÍA -->
+    <div id="gallery"></div>
+
     <script src="script.js"></script>
+
 </body>
 </html>
-<div class="controls">
-  <button id="recordBtn">⏺️ Grabar onda</button>
-  <button id="stopBtn">⏹️ Parar</button>
-  <a id="downloadLink" style="display:none;">💾 Descargar imagen</a>
-</div>
-
-<canvas id="waveform"></canvas>
