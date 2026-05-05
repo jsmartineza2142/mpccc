@@ -10,6 +10,67 @@ h1 {
     margin: 20px 0;
 }
 
+/* CONTROLES */
+.controls {
+    margin: 15px;
+}
+
+button {
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 10px;
+    border: none;
+    background: #222;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #00ffcc;
+    color: black;
+}
+
+/* CANVAS */
+canvas {
+    width: 100%;
+    max-width: 500px;
+    height: 120px;
+    background: black;
+    margin: 10px auto;
+    display: block;
+    border-radius: 10px;
+}
+
+/* GALERÍA */
+#gallery {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.wave-item {
+    background: #111;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.wave-item img {
+    width: 150px;
+    display: block;
+    border-radius: 5px;
+}
+
+.wave-item a {
+    display: block;
+    margin-top: 5px;
+    color: #00ffcc;
+    text-decoration: none;
+    font-size: 14px;
+}
+
 /* GRID MPC */
 .grid {
     display: grid;
@@ -49,9 +110,4 @@ h1 {
         gap: 10px;
         padding: 10px;
     }
-}
-canvas {
-  width: 100%;
-  max-width: 500px;
-  height: 120px;
 }
