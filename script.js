@@ -1,6 +1,6 @@
 const pads = document.querySelectorAll(".pad");
 
-// 🔊 sonidos
+// sonidos
 const sounds = [];
 
 for (let i = 1; i <= 16; i++) {
@@ -9,11 +9,10 @@ for (let i = 1; i <= 16; i++) {
   sounds.push(audio);
 }
 
-// 🎚️ canvas
+// canvas
 const canvas = document.getElementById("waveform");
 const ctx = canvas.getContext("2d");
 
-// ajustar tamaño real
 function resizeCanvas() {
   canvas.width = canvas.offsetWidth;
   canvas.height = 150;
@@ -27,23 +26,29 @@ const stopBtn = document.getElementById("stopBtn");
 const downloadLink = document.getElementById("downloadLink");
 const gallery = document.getElementById("gallery");
 
-// estado
 let recording = false;
 let x = 0;
 
-// limpiar
 function clearCanvas() {
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 clearCanvas();
 
-// dibujar onda
-function drawHit() {
+// 🔥 onda consistente por pad
+function drawHit(index) {
   if (!recording) return;
 
   const centerY = canvas.height / 2;
-  const amplitude = Math.random() * 50 + 30;
+
+  const amplitudes = [
+    80, 40, 60, 30,
+    90, 50, 70, 35,
+    85, 45, 65, 25,
+    95, 55, 75, 30
+  ];
+
+  const amplitude = amplitudes[index];
 
   ctx.strokeStyle = "#00ffcc";
   ctx.lineWidth = 3;
@@ -66,9 +71,9 @@ pads.forEach((pad, index) => {
 
     const clone = sound.cloneNode();
     clone.currentTime = 0;
-    clone.play().catch(() => {}); // 🔥 fix iPhone
+    clone.play().catch(() => {});
 
-    drawHit();
+    drawHit(index);
 
     pad.style.transform = "scale(0.85)";
     setTimeout(() => {
@@ -94,7 +99,6 @@ stopBtn.onclick = () => {
   downloadLink.download = "onda.png";
   downloadLink.style.display = "block";
 
-  // galería
   const container = document.createElement("div");
   container.className = "wave-item";
 
